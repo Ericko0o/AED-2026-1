@@ -1,13 +1,22 @@
-# Ignorar archivos de Visual Studio
+# Visual Studio
 .vs/
 *.vcxproj*
-*.sln
+*.slnx
+
+# Compilación
+x64/
 Debug/
 Release/
-x64/
-x86/
 
-# Archivos temporales
+# Archivos generados
 *.obj
 *.exe
 *.log
+*.tlog
+*.pdb
+*.ilk
+*.recipe
+*.idb
+
+# Opcional (usuario)
+*.user
