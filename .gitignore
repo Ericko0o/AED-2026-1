@@ -1,0 +1,13 @@
+# Ignorar archivos de Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+Debug/
+Release/
+x64/
+x86/
+
+# Archivos temporales
+*.obj
+*.exe
+*.log
