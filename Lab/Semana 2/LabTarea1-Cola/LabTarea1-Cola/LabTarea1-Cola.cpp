@@ -37,7 +37,10 @@ bool Cola<T, N>::vacio()
 template <class T, int N>
 bool Cola<T, N>::lleno()
 {
-    return tail == arr + n_elem - 1;
+    if (vacio()) return false;
+
+    T* next = (tail == arr + n_elem - 1) ? arr : tail + 1;
+    return next == head;
 }
 
 template <class T, int N>
@@ -52,7 +55,10 @@ bool Cola<T, N>::push(T val)
     }
     else
     {
-        tail++;
+        if (tail == arr + n_elem - 1)
+            tail = arr;
+        else
+            tail++;
     }
 
     *tail = val;
@@ -66,12 +72,18 @@ bool Cola<T, N>::pop(T& val)
         return false;
 
     val = *head;
-    head++;
 
-    if (head > tail)
+    if (head == tail)
     {
         head = nullptr;
         tail = nullptr;
+    }
+    else
+    {
+        if (head == arr + n_elem - 1)
+            head = arr;
+        else
+            head++;
     }
 
     return true;
@@ -83,10 +95,23 @@ void Cola<T, N>::imprimir()
 {
     for (int i = 0; i < n_elem; i++)
     {
-        if (head != nullptr && tail != nullptr &&
-            arr + i >= head && arr + i <= tail)
+        if (head != nullptr)
         {
-            cout << "[" << arr[i] << "]";
+            int pos = i;
+            int h = head - arr;
+            int t = tail - arr;
+
+            if (
+                (h <= t && pos >= h && pos <= t) ||
+                (h > t && (pos >= h || pos <= t))
+                )
+            {
+                cout << "[" << arr[i] << "]";
+            }
+            else
+            {
+                cout << "[ ]";
+            }
         }
         else
         {
@@ -119,30 +144,52 @@ int main()
 {
     Cola<int, 10> c;
 
-    c.imprimir();
-
-    c.push(10);
-    c.imprimir();
-
-    c.push(20);
-    c.imprimir();
-
-    c.push(30);
-    c.imprimir();
-
     int x;
 
-    c.pop(x);
-    cout << "Sale: " << x << endl;
     c.imprimir();
 
-    c.pop(x);
-    cout << "Sale: " << x << endl;
+    
+    c.push(10); c.imprimir();
+    c.push(20); c.imprimir();
+    c.push(30); c.imprimir();
+    c.push(40); c.imprimir();
+    c.push(50); c.imprimir();
+    c.push(60); c.imprimir();
+    c.push(70); c.imprimir();
+    c.push(80); c.imprimir();
+    c.push(90); c.imprimir();
+    c.push(100); c.imprimir();
+
+    
+    c.push(110);
     c.imprimir();
 
+    
+    c.pop(x); cout << "Sale: " << x << endl; c.imprimir();
+    c.pop(x); cout << "Sale: " << x << endl; c.imprimir();
+    c.pop(x); cout << "Sale: " << x << endl; c.imprimir();
+    c.pop(x); cout << "Sale: " << x << endl; c.imprimir();
+    c.pop(x); cout << "Sale: " << x << endl; c.imprimir();
+
+    
+    c.push(200); c.imprimir();
+    c.push(300); c.imprimir();
+
+    
+    while (c.pop(x))
+    {
+        cout << "Sale: " << x << endl;
+        c.imprimir();
+    }
+
+    
     c.pop(x);
-    cout << "Sale: " << x << endl;
     c.imprimir();
+
+    c.push(10); c.imprimir();
+    c.push(20); c.imprimir();
+    c.push(30); c.imprimir();
+    c.push(40); c.imprimir();
 
     return 0;
 }
